@@ -1,4 +1,4 @@
- (() => {
+(() => {
 const C = window.ZS_CONTENT || { projects: [], social: {} };
 const $ = s => document.querySelector(s);
 const esc = s => String(s ?? '').replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
@@ -11,9 +11,9 @@ C.projects.forEach(p => {
   b.className = 'proj rv'; b.type = 'button';
   b.setAttribute('aria-label', 'Open project: ' + p.name);
   const letter = p.name.trim().charAt(0).toUpperCase();
-  const media = p.image ? `<img src="${esc(p.image)}" alt="${esc(p.alt || p.name)}" loading="lazy" decoding="async">` : '';
+  const media = p.image ? `<img src="${esc(p.image)}" alt="${esc(p.alt || p.name)}" loading="lazy" decoding="async" style="object-position:${esc(p.position || '50% 50%')}">` : '';
   const meta = [p.category, p.year].filter(Boolean).join(' — ');
-  b.innerHTML = `<div class="vis" data-l="${esc(letter)}">${media}<div class="cover"></div></div>
+  b.innerHTML = `<div class="vis${p.image ? ' has-img' : ''}" data-l="${esc(letter)}">${media}<div class="cover"></div></div>
     <div class="meta"><h3>${esc(p.name)}</h3><span>${esc(meta)}</span></div>${p.description ? `<p>${esc(p.description)}</p>` : ''}`;
   b.onclick = () => openCase(p);
   grid.appendChild(b);
@@ -24,11 +24,14 @@ const dlg = $('#case');
 function openCase(p) {
   $('#cc').textContent = [p.category, p.year].filter(Boolean).join(' — ');
   $('#ct').textContent = p.name;
+  const imgs = p.images && p.images.length ? p.images : (p.image ? [{ src: p.image, alt: p.alt || p.name }] : []);
+  const gal = imgs.length ? `<div class="gal">${imgs.map(i => `<img src="${esc(i.src)}" alt="${esc(i.alt || p.name)}" loading="lazy" decoding="async">`).join('')}</div>` : '';
+  $('#cb').className = gal ? 'has-gal' : '';
   const stages = p.case && Object.entries(p.case).filter(([, v]) => v);
-  $('#cb').innerHTML = stages && stages.length
+  $('#cb').innerHTML = gal + (stages && stages.length
     ? stages.map(([k, v]) => `<article><h4>${esc(k)}</h4><p>${esc(v)}</p></article>`).join('')
     : `<article><h4>Overview</h4><p>${esc(p.description || 'A ' + p.category.toLowerCase() + ' project by ZS Creative. Get in touch to see the full story and the work behind it.')}</p></article>
-       <button class="btn solid" type="button" id="more">Discuss a similar project</button>`;
+       <button class="btn solid" type="button" id="more">Discuss a similar project</button>`);
   const more = $('#more');
   if (more) more.onclick = () => { dlg.close(); location.hash = '#contact'; };
   dlg.showModal(); dlg.scrollTop = 0; document.body.classList.add('lock');
