@@ -1,14 +1,16 @@
 /* ZS Creative — editable content.
    Add your real contact links and project images before publishing. */
 window.ZS_CONTENT = {
-  email: "",
+  email: "pixooviner@gmail.com",
+
   social: {
-    Instagram: "",
-    Facebook: "",
-    TikTok: "",
+    Instagram: "https://www.instagram.com/zeds_creative?stkn=MTF1aWhlZjN2MTNqZA==",
+    Facebook: "https://www.facebook.com/share/1C4PzvXaes/",
+    TikTok: "https://www.tiktok.com/@zedscreative?_r=1&_t=ZS-9AFqhskbsEW",
     Behance: "",
     LinkedIn: ""
   },
+
   projects: [
     {
       name: "Mimi Clown",
