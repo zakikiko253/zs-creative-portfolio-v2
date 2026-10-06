@@ -82,6 +82,7 @@ window.ZS_CONTENT = {
     },
     {
       name: "ZS Creative Branding",
+      wide: true,
       category: "Brand Identity",
       year: "2026",
       description: "The visual identity system behind ZS Creative: dark, modern and motion-oriented.",
